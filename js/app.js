@@ -1,3 +1,31 @@
+var newNumber = 0;
+var counter = 0;
+
+function clearCounter() {
+	counter = 0;
+};
+
+function generateRandomNumber(size) {
+	Math.floor((Math.random() * size) + 1);
+};
+
+function clearGuessList() {
+	$("ul#guessList").html("");
+};
+
+function resetInputValue() {
+	$("#userGuess").val("");
+};
+
+function newGame() {
+	newNumber = generateRandomNumber(100); // generates random number
+	console.log(newNumber);
+	resetInputValue(); // resets input value
+	clearCounter(); // clears guess counter
+	$("span#count").text(counter);
+	clearGuessList();
+};
+
 $(document).ready(function(){
 	/*--- Display information modal box ---*/
   	$(".what").click(function(){
@@ -13,56 +41,53 @@ $(document).ready(function(){
 ------------------------------------------------------*/
 
 	$("a.new").click(function() {
-		var newNumber = Math.floor((Math.random() * 100) + 1); // Creates random number
-		console.log(newNumber);
-		var counter = 0; // why does this have to be a global variable?
-		$("#userGuess").val(""); // resets input value
-
-		$("#guessButton").click(function(e) {
-			e.preventDefault();
-			
-			var userGuess = $("input#userGuess").val(); // stores user guess in userGuess variable
-			$("#userGuess").val(""); // resets input value
-
-			var diff = userGuess - newNumber;
-
-			if(userGuess > 100) {
-				alert("Number must be between 1 and 100. Pick again!");
-			}
-			else if(userGuess <= 100) {
-				//alerts user hot or cold
-				if ((userGuess - newNumber) === 0) {
-				$("h2#feedback").text("Correct!");
-				}
-				else if(Math.abs(diff) <= 5) {
-				$("h2#feedback").text("Burning!!!");
-				}
-				else if(Math.abs(diff) <= 10) {
-				$("h2#feedback").text("Hot!");
-				}
-				else if (Math.abs(diff) <= 20) {
-				$("h2#feedback").text("Warm");
-				}
-				else if (Math.abs(userGuess - newNumber) <= 40) {
-				$("h2#feedback").text("Cold");
-				}
-				else if(Math.abs(userGuess - newNumber) < 100) {
-				$("h2#feedback").text("Freezing!");
-				}
-
-				//prepends user guesses
-				$("ul#guessList").prepend("<li>" + userGuess + "</li>");
-				//adds one to counter
-				counter += 1;
-				// displays added guess counter
-				$("span#count").text(counter); 
-
-			}
-
-			
-
-		});
+		newGame();
 	});
+
+	$("#guessButton").click(function(e) {
+		e.preventDefault();
+		
+		var userGuess = $("#userGuess").val(); // stores user guess in userGuess variable
+		resetInputValue(); // resets input value
+
+
+		if(userGuess > 100 || userGuess < 1) {
+			alert("Number must be between 1 and 100. Pick again!");
+		}
+		
+		else if(userGuess <= 100) {
+
+			if ((userGuess - newNumber) === 0) {
+				$("h2#feedback").text("Correct!");
+			}
+			else if (Math.abs(userGuess - newNumber) <= 5) {
+				$("h2#feedback").text("Burning!!!");
+			}
+			else if (Math.abs(userGuess - newNumber) <= 10) {
+				$("h2#feedback").text("Hot!");
+			}
+			else if (Math.abs(userGuess - newNumber) <= 20) {
+				$("h2#feedback").text("Warm");
+			}
+			else if (Math.abs(userGuess - newNumber) <= 40) {
+				$("h2#feedback").text("Cold");
+			}
+			else if (Math.abs(userGuess - newNumber) < 100) {
+				$("h2#feedback").text("Freezing!");
+			}
+
+			//prepends user guesses
+			$("ul#guessList").prepend("<li>" + userGuess + "</li>");
+			//adds one to counter
+			counter += 1;
+			// displays added guess counter
+			$("span#count").text(counter); 
+
+
+		};
+	});	
+
+	newGame();
 });
 
 

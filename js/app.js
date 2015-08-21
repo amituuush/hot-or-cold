@@ -1,3 +1,7 @@
+/*------------------------------------------------------
+	Global Variables and Functions
+------------------------------------------------------*/
+
 var newNumber = 0;
 var counter = 0;
 
@@ -6,7 +10,7 @@ function clearCounter() {
 };
 
 function generateRandomNumber(size) {
-	Math.floor((Math.random() * size) + 1);
+	return Math.floor((Math.random() * size) + 1);
 };
 
 function clearGuessList() {
@@ -18,13 +22,17 @@ function resetInputValue() {
 };
 
 function newGame() {
-	newNumber = generateRandomNumber(100); // generates random number
+	newNumber = generateRandomNumber(100);
 	console.log(newNumber);
-	resetInputValue(); // resets input value
-	clearCounter(); // clears guess counter
+	resetInputValue();
+	clearCounter();
 	$("span#count").text(counter);
 	clearGuessList();
 };
+
+/*------------------------------------------------------
+	Modal Box Code
+------------------------------------------------------*/
 
 $(document).ready(function(){
 	/*--- Display information modal box ---*/
@@ -48,14 +56,14 @@ $(document).ready(function(){
 		e.preventDefault();
 		
 		var userGuess = $("#userGuess").val(); // stores user guess in userGuess variable
-		resetInputValue(); // resets input value
+		resetInputValue();
 
 
 		if(userGuess > 100 || userGuess < 1) {
 			alert("Number must be between 1 and 100. Pick again!");
 		}
-		
-		else if(userGuess <= 100) {
+
+		else {
 
 			if ((userGuess - newNumber) === 0) {
 				$("h2#feedback").text("Correct!");
@@ -76,12 +84,10 @@ $(document).ready(function(){
 				$("h2#feedback").text("Freezing!");
 			}
 
-			//prepends user guesses
-			$("ul#guessList").prepend("<li>" + userGuess + "</li>");
-			//adds one to counter
-			counter += 1;
-			// displays added guess counter
-			$("span#count").text(counter); 
+			
+			$("ul#guessList").prepend("<li>" + userGuess + "</li>"); //prepends user guesses
+			counter += 1; //adds one to counter
+			$("span#count").text(counter); // displays added guess counter
 
 
 		};

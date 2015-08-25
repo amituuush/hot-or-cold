@@ -4,6 +4,7 @@
 
 var newNumber = 0;
 var counter = 0;
+var gameFinished = false;
 
 function clearCounter() {
 	counter = 0;
@@ -28,6 +29,8 @@ function newGame() {
 	clearCounter();
 	$("span#count").text(counter);
 	clearGuessList();
+	gameFinished = false;
+	$("h2#feedback").html("Make your Guess");
 };
 
 /*------------------------------------------------------
@@ -63,10 +66,15 @@ $(document).ready(function(){
 			alert("Number must be between 1 and 100. Pick again!");
 		}
 
+		else if(gameFinished === true) {
+			alert("Game has finished! Click 'New Game' to play again.");
+		}
+
 		else {
 
 			if ((userGuess - newNumber) === 0) {
 				$("h2#feedback").text("Correct!");
+				gameFinished = true;
 			}
 			else if (Math.abs(userGuess - newNumber) <= 5) {
 				$("h2#feedback").text("Burning!!!");
@@ -118,6 +126,5 @@ DONE 5. The game should track how many guesses the user has made. Feedback about
 DONE 6. The game should also supply users with a list of the numbers they have guessed so far. The CSS for this game is set up in such a way that you can simply add each guessed number as an <li> to ul#guessList.
 
 7. you will need to write code that ensures that the user has supplied a numeric input between 1 and 100.
-
 
 */
